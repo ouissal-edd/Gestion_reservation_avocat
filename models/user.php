@@ -10,7 +10,7 @@ class Users {
     public $age;
     public $cin;
     public $profession;
-    
+    public $id_user;
     public $reference_user;
 
 
@@ -74,7 +74,7 @@ class Users {
     
 
 
-    public function delete_users() {
+    public function delete_RDV() {
         $query = 'DELETE FROM ' . $this->table . ' WHERE id_user = :id_user';
     
         $stmt = $this->conn->prepare($query);
@@ -147,23 +147,16 @@ class Users {
         {
             $query = 'SELECT * FROM ' . $this->table . '   WHERE  reference_user = :reference_user';
             $stmt = $this->conn->prepare($query);
-            // $this->cin=htmlspecialchars(strip_tags($this->reference_user));
-            // $stmt->bindParam(":cin", $this->reference_user);
-          $stmt->execute();
-          $count = $stmt->rowCount();
-          $row   = $stmt->fetch(PDO::FETCH_ASSOC);
-          return $count;
-          return $row;
-          if($count == 1 && !empty($row))
+            $stmt->bindParam(":reference_user", $this->reference_user);
+            $stmt->execute();
+            $row   = $stmt->fetch(PDO::FETCH_ASSOC);
+         
+          $count = $stmt->rowCount();        
+
+          if($count == 1)
           {
-                echo"hello";
-              session_start();
-              $_SESSION['id_user'] = $row['id_user'];
-              $_SESSION['reference_user']   = $row['reference_user'];
-              $_SESSION['nom'] = $row['nom'];
-              return $row['id_user'];
-          
-      
+            $this->id_user = $row['id_user'];
+            return  $row['id_user'];
             } 
             else {
              return false;

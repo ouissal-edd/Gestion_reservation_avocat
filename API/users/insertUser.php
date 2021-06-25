@@ -1,7 +1,4 @@
 
-
-
-
 <?php
     header("Access-Control-Allow-Origin: *");
     header("Content-Type: application/json; charset=UTF-8");
@@ -9,9 +6,9 @@
     header("Access-Control-Max-Age: 3600");
     header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-    include_once '../config/Database.php';
-    include_once '../models/user.php';
-    include_once '../controllers/Controller.php';
+    include_once '../../config/Database.php';
+    include_once '../../models/user.php';
+    include_once '../../controllers/Controller.php';
 
     $database = new Database();
     $db = $database->connect();
@@ -34,9 +31,18 @@
 
     
     if($users->Insert_users()){
-        echo 'Users created successfully.';
+        echo json_encode(
+            array(
+                'ref' => $users->reference_user,
+                'msg' => 'Users created successfully.'
+            )
+        );
     } else{
-        echo 'Users could not be created.';
+        echo json_encode(
+            array(
+                'msg' => 'Users could not be created.'
+            )
+        );
     }
 ?>
 
