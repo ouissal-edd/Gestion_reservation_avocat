@@ -9,6 +9,7 @@ public $sujet;
 public $date;
 public $fk_creneau ;
 public $fk_user;
+public $id_user;
 public $fk_reference_user;
 
 public function __construct($db){
@@ -16,11 +17,23 @@ public function __construct($db){
 }
 
 public function read_RDV () {
-    $query = 'SELECT id_RDV ,sujet,date,fk_creneau , fk_user FROM ' . $this->table . ' ';
+    $query = 'SELECT  sujet,date,fk_creneau , fk_user FROM ' . $this->table . '  WHERE id_RDV = :id_RDV ';
     $stm = $this->conn->prepare($query);
     $stm -> execute();
     
     return $stm;
+}
+
+public function getSingleRDV()
+{
+    $query = "SELECT * FROM rdv r INNER JOIN creneau c ON c.id_creneau = r.fk_creneau INNER JOIN user u ON u.id_user = r.fk_user where u.id_user =:id_user";
+    $stmt = $this->conn->prepare($query);
+    $this->id_user=htmlspecialchars(strip_tags($this->id_user));
+    $stmt->bindParam(":id_user", $this->id_user);
+    $stmt -> execute();
+
+
+    return $stmt;
 }
 
 
@@ -63,6 +76,34 @@ public function delete_RDV() {
       return true;
     }
 }
+
+
+public function UpdateRDV()
+{
+    $query = 'UPDATE rdv SET  sujet=:sujet, date=:date ,fk_creneau=:fk_creneau WHERE id_RDV=:id_RDV';
+    $stmt = $this->conn->prepare($query);
+    
+    $this->id_RDV = htmlspecialchars(strip_tags($this->id_RDV));
+    $this->sujet = htmlspecialchars(strip_tags($this->sujet));
+    $this->date = htmlspecialchars(strip_tags($this->date));
+    $this->fk_creneau = htmlspecialchars(strip_tags($this->fk_creneau));
+
+    $stmt->bindParam(':id_RDV', $this->id_RDV);
+    $stmt->bindParam(':sujet', $this->sujet);
+    $stmt->bindParam(':date', $this->date);
+    $stmt->bindParam(':fk_creneau', $this->fk_creneau);
+
+
+
+    if ($stmt->execute()){
+        return true;
+        }
+        
+        return false;      
+    }
+
+
+
 
 
 
