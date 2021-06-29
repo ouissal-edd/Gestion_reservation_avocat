@@ -19,9 +19,9 @@ $rdv = new RDV($db);
 $users =new Users ($db);
 
 $data = json_decode(file_get_contents("php://input"));
-$rdv->id_user = $data->id_user;
+$rdv->id_RDV = $data->id_RDV;
 
-$result = $rdv->getSingleRDV();
+$result = $rdv->getSpecifiqueRDV();
 $num = $result->rowCount();
 if ($num) {
     $rdv_arr = array();

@@ -23,6 +23,8 @@ public function read_RDV () {
     
     return $stm;
 }
+// Lie un paramètre à un nom de variable spécifique
+// notation nominative
 
 public function getSingleRDV()
 {
@@ -30,6 +32,18 @@ public function getSingleRDV()
     $stmt = $this->conn->prepare($query);
     $this->id_user=htmlspecialchars(strip_tags($this->id_user));
     $stmt->bindParam(":id_user", $this->id_user);
+    $stmt -> execute();
+
+
+    return $stmt;
+}
+
+public function getSpecifiqueRDV()
+{
+    $query = "SELECT * FROM rdv r INNER JOIN creneau c ON c.id_creneau = r.fk_creneau INNER JOIN user u ON u.id_user = r.fk_user where r.id_RDV =:id_RDV";
+    $stmt = $this->conn->prepare($query);
+    $this->id_RDV=htmlspecialchars(strip_tags($this->id_RDV));
+    $stmt->bindParam(":id_RDV", $this->id_RDV);
     $stmt -> execute();
 
 
@@ -102,10 +116,14 @@ public function UpdateRDV()
         return false;      
     }
 
+    public function verificationCreneau() {
 
+        $query = " SELECT *FROM creneau WHERE id_creneau NOT IN(SELECT fk_creneau FROM rdv WHERE date= ?)";
 
+        $req = $this->conn->prepare($query);
+        $req->execute([$this->date]);
 
-
-
+        return  $req;
+    }
 }
 ?>
