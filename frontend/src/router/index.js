@@ -1,8 +1,10 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {
+  createRouter,
+  createWebHistory
+} from 'vue-router'
 import Home from '../views/Home.vue'
 
-const routes = [
-  {
+const routes = [{
     path: '/',
     name: 'Home',
     component: Home
@@ -13,7 +15,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/FirstForm.vue')
+    component: () => import( /* webpackChunkName: "about" */ '../views/FirstForm.vue')
   },
   {
     path: '/clientFormulaire',
@@ -21,7 +23,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/ClientForm.vue')
+    component: () => import( /* webpackChunkName: "about" */ '../views/ClientForm.vue')
   },
   {
     path: '/r',
@@ -29,7 +31,15 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Reservation.vue')
+    component: () => import( /* webpackChunkName: "about" */ '../views/Reservation.vue')
+  },
+  {
+    path: '/gestionReservation',
+    name: 'AllReservation',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import( /* webpackChunkName: "gestionReservation" */ '../views/AllReservation.vue')
   }
 ]
 
